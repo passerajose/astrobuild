@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Base from '../layouts/Base.astro'
+import Card from '../components/Card.astro'
+
+const allPosts = await Astro.glob('../content/*.md')
+// Astro.glob es una función que se utiliza para cargar archivos en la carpeta content);
+// Carga todos los archivos .md en la carpeta content en forma de array
+// Aquí el await se utiliza para esperar a que la promesa se resuelva y luego asignar el valor a la variable allPosts
+
+import Checkbox from '../components/checkbox.astro'
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <p class="instructions">
+      To get started, open the directory <code>src/pages</code> in your project.<br
+      />
+      <strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
+    </p>
+    <ul role="list" class="link-card-grid">
+      {
+        allPosts.map((post) => (
+          <Card
+            title={post?.frontmatter?.title}
+            time={post?.frontmatter?.pubDate}
+            tags={post?.frontmatter?.tags}
+          />
+        ))
+        // Lo que se hace aquí es mapear el array allPosts y por cada elemento se crea un componente Card
+        // Se pone post? para que no de error si no hay un título en el archivo .md
+        // .frontmatter es un objeto que contiene los metadatos del archivo .md
+      }
+      <!-- <Checkbox /> -->
+    </ul>
+  </main>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1.5rem;
+    max-width: 60ch;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+  .instructions {
+    line-height: 1.6;
+    margin: 1rem 0;
+    border: 1px solid rgba(var(--accent), 25%);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .instructions code {
+    font-size: 0.875em;
+    font-weight: bold;
+    background: rgba(var(--accent), 12%);
+    color: rgb(var(--accent));
+    border-radius: 4px;
+    padding: 0.3em 0.45em;
+  }
+  .instructions strong {
+    color: rgb(var(--accent));
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+</style>

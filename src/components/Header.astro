@@ -1,0 +1,10 @@
+---
+export interface Props {
+  title: string;
+}
+const {title} = Astro.props; // ya con esto podemos llamar a la variable title en el componente
+---
+
+<h1>
+  <span class="text-gradient">{title}</span>
+</h1>
